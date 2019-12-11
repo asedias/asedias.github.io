@@ -1,0 +1,24 @@
+name: Setup and start
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: NodeJS Action Template
+      uses: bitoiu/node-js-action-template@v1.0
+    - name: Setup
+      run: |
+        npm install 
+    - name: Build
+      run: |
+        ls -l
+        npm start
+    - name: Show File List
+      run: |
+         ls -l
+    

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import connect from '@vkontakte/vk-connect';
+import React, { useState, /*useEffect*/ } from 'react';
+//import connect from '@vkontakte/vk-connect';
 import View from '@vkontakte/vkui/dist/components/View/View';
-import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
+//import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from './panels/Home';
 import Persik from './panels/Persik';
+import ScheduleScreen from './panels/ScheduleScreen';
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
+	const [activePanel, setActivePanel] = useState('schedule');
 	//const [fetchedUser, setUser] = useState(null);
 	//const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
@@ -33,6 +34,7 @@ const App = () => {
 
 	return (
 		<View activePanel={activePanel} >
+			<ScheduleScreen id='schedule' go={go} />
 			<Home id='home' /*fetchedUser={fetchedUser}*/ go={go} />
 			<Persik id='persik' go={go} />
 		</View>

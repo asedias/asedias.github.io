@@ -1,0 +1,24 @@
+:root {
+  --background_page: #ffffff;
+  --font-android: Google Sans,sans-serif;
+}
+
+body[scheme="client_dark"] {
+  --background_page: #ebedf0;
+}
+
+.Panel__in {
+  background: var(--background_page);
+}
+
+#group_name {
+	line-height: 35px;
+	margin-left: 16px;
+	font-weight: 500;
+	font-size: 22px;
+}
+#metro_station {
+	margin-left: 16px;
+	font-weight: 500;
+	font-size: 19px;
+}

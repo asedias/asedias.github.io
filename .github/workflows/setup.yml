@@ -1,0 +1,28 @@
+name: Setup and start
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: NodeJS Action Template
+      uses: bitoiu/node-js-action-template@v1.0
+    - name: Setup
+      run: npm install 
+    - name: Build
+      run: npm run build
+    - name: Show File List
+      run: ls -l
+    - name: GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v1.2.5
+      with:
+        target_branch: gh-pages
+        build_dir: build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+    

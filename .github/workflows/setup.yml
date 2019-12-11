@@ -12,13 +12,17 @@ jobs:
     - name: NodeJS Action Template
       uses: bitoiu/node-js-action-template@v1.0
     - name: Setup
-      run: |
-        npm install 
+      run: npm install 
     - name: Build
-      run: |
-        ls -l
-        npm start
+      run: npm build
     - name: Show File List
-      run: |
-         ls -l
+      run: ls -l
+    - name: GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v1.2.5
+      with:
+        target_branch: gh-pages
+        build_dir: build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
     

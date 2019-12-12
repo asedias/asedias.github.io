@@ -11,6 +11,50 @@ body[scheme="client_dark"] {
   background: var(--background_page);
 }
 
+div#cab {
+	font-weight: 500;
+	font-size: 24px;
+}
+
+div#cab:before {
+	font-weight: 500;
+	font-size: 16px;
+	color: #999999;
+	content: 'каб.'
+}
+
+div#time {
+	width: -webkit-fill-available;
+	font-weight: 500;
+	color: #999999;
+	font-size: 24px;
+}
+
+div#timecab, div#nametype {
+	display: flex;
+}
+
+div#name {
+	width: -webkit-fill-available;
+	font-weight: 500;
+	font-size: 20px;
+}
+
+div#type_prac, div#type_lec, div#type_lab {
+	font-weight: 500;
+	font-size: 20px;
+}
+
+div#type_prac {
+	color: #4B0082;
+}
+
+div#tch {
+	font-weight: 500;
+	font-size: 16px;
+	color: #999999;
+}
+
 #group_name {
 	line-height: 35px;
 	margin-left: 16px;

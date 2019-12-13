@@ -45,7 +45,7 @@ const ScheduleList = () => {
 	const MVS116 = require("./json/MVS-116.json");
 	const MVS117 = require("./json/MVS-117.json");
 	const MVS118 = require("./json/MVS-118.json");
-	const Groups = global.Groups = [
+	var Groups = [
 	MAK116,
 	MAK117,
 	MAK18,
@@ -94,11 +94,7 @@ const ScheduleList = () => {
 	MVS118
 	]
 	
-	function ff () { return Groups }
-	
-	module.exports = {
-		ff
-	};
+	module.exports = Groups;
 }
 
 export default ScheduleList;

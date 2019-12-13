@@ -1,33 +1,35 @@
 :root {
-  --background_page: #ffffff;
-  --font-android: Google Sans,sans-serif;
+  /*--background_page: #ffffff;
+  --font-android: Google Sans,sans-serif;*/
 }
 
 body[scheme="client_dark"] {
-  --background_page: #ebedf0;
+  /*--background_page: #19191a;*/
 }
 
 .Panel__in {
-  background: var(--background_page);
+  /*background: var(--background_page);*/
 }
 
 div#cab {
 	font-weight: 500;
-	font-size: 24px;
+	font-size: 22px;
+    width: -webkit-fill-available;
+    text-align: right;
 }
 
 div#cab:before {
 	font-weight: 500;
-	font-size: 16px;
-	color: #999999;
-	content: 'каб.'
+	font-size: 14px;
+	color: #828282;
+	content: 'каб. '
 }
 
 div#time {
 	width: -webkit-fill-available;
 	font-weight: 500;
-	color: #999999;
-	font-size: 24px;
+	color: #828282;
+	font-size: 22px;
 }
 
 div#timecab, div#nametype {
@@ -46,13 +48,21 @@ div#type_prac, div#type_lec, div#type_lab {
 }
 
 div#type_prac {
-	color: #4B0082;
+	color: #5400ff;
+}
+
+div#type_lec {
+	color: #ffbb00;
+}
+
+div#type_lab {
+	color: #00b436;
 }
 
 div#tch {
 	font-weight: 500;
 	font-size: 16px;
-	color: #999999;
+	color: #828282;
 }
 
 #group_name {

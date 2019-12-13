@@ -39,13 +39,6 @@ class ScheduleScreen extends Component {
 				if (type === 'VKWebAppAccessTokenFailed' | 'VKWebAppCallAPIMethodFailed') {
 					
 				}
-				if (type === 'VKWebAppCallAPIMethodResult') {
-					if(data.response === '' | data.request_id === "clearGroup") {
-						this.props.go('choose');
-					} else if(data.request_id === "getGroup") {
-						this.updateData(data.response);
-					}
-				}
 			});
 			connect.send("VKWebAppGetAuthToken", {"app_id": 7241048, "scope": ''});
 	}
@@ -71,11 +64,17 @@ class ScheduleScreen extends Component {
 	
 	clearGroup = (event) => {
 		//this.setState({loading: true, groupName: this.state.groupName, day: this.state.day, count: this.state.count});
-		connect.send("VKWebAppCallAPIMethod",  {
+		connect.sendPromise("VKWebAppCallAPIMethod",  {
 				"method": "storage.set", 
 				"params": {"v":"5.103", "access_token": this.access_token, "request_id": "clearGroup", "value": "", "key": "rsu-group", "global": 1}
 			}
-		);
+		)
+		.then(data => {
+			if(data.response === 1) this.props.go('choose');
+		})
+		.catch(error => {
+			console.log(error);
+		});
 	}
 	
 	getDay = (week, day) => {

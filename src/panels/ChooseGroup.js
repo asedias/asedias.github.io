@@ -24,24 +24,23 @@ class ChooseGroup extends React.Component {
 				}
 				if (type === 'VKWebAppAccessTokenReceived') {
 					this.access_token = data.access_token;
-				} 
-				if (type === 'VKWebAppCallAPIMethodResult') {
-					if(data.response === '') {
-						this.props.go('choose');
-					} else if(data.request_id === "setGroup") {
-						this.props.go('schedule');
-					}
 				}
 			});
 			connect.send("VKWebAppGetAuthToken", {"app_id": 7241048, "scope": ''});
 	}
 	
 	setGroup = (event) => {
-		connect.send("VKWebAppCallAPIMethod",  {
+		connect.sendPromise("VKWebAppCallAPIMethod",  {
 				"method": "storage.set", 
-				"params": {"v":"5.103", "access_token": this.access_token, "request_id": "setGroup", "value": document.getElementById("group-input").value, "key": "rsu-group", "global": 1}
+				"params": {"v":"5.103", "access_token": this.access_token, "request_id": "clearGroup", "value": document.getElementById("group-input").value, "key": "rsu-group", "global": 1}
 			}
-		);
+		)
+		.then(data => {
+			if(data.response === 1) this.props.go('schedule');
+		})
+		.catch(error => {
+			console.log(error);
+		});
 	}
 	
 	render() {

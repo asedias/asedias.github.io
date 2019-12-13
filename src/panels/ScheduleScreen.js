@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, PanelHeaderContent, Spinner, Group, List, Footer } from '@vkontakte/vkui';
+import { Panel, PanelHeader, PanelHeaderContent, Spinner, Group, List, Footer, Tabs, TabsItem, HorizontalScroll, FixedLayout } from '@vkontakte/vkui';
 import Icon16Dropdown from '@vkontakte/icons/dist/16/dropdown';
 import PeriodView from '../components/PeriodView';
 import connect from '@vkontakte/vk-connect';
@@ -12,14 +12,17 @@ class ScheduleScreen extends Component {
 	list = [];
 	header = "";
 	access_token = null;
+	schedule = null;
 	
 	constructor(props) {
 		super(props);
+		var dayOfWeek = new Date().getDay(); dayOfWeek = dayOfWeek > 5 ? 1 : dayOfWeek;
 		this.state = {
 			loading: true,
-			groupName: '',
+			dayNum: dayOfWeek,
 			day: null,
 			count: 0,
+			groupName: '',
 		}
 		this.setupConnect();
 	}
@@ -51,9 +54,11 @@ class ScheduleScreen extends Component {
 		)
 		.then(data => {
 			if(data.response[0].hasOwnProperty("key")) {
-				this.updateData(data.response[0].value);
+				this.setState({groupName: data.response[0].value});
+				this.updateData();
 			} else {
-				this.updateData(data.response);
+				this.setState({groupName: data.response});
+				this.updateData();
 			}
 		})
 		.catch(error => {
@@ -63,7 +68,6 @@ class ScheduleScreen extends Component {
 	}
 	
 	clearGroup = (event) => {
-		//this.setState({loading: true, groupName: this.state.groupName, day: this.state.day, count: this.state.count});
 		connect.sendPromise("VKWebAppCallAPIMethod",  {
 				"method": "storage.set", 
 				"params": {"v":"5.103", "access_token": this.access_token, "request_id": "clearGroup", "value": "", "key": "rsu-group", "global": 1}
@@ -96,20 +100,23 @@ class ScheduleScreen extends Component {
 		}
 	}
 	
-	updateData = (groupName) => {
-		console.log(groupName);
-		var schedule = require('../json/'+groupName+'.json');
+	updateData = () => {
+		console.log(this.state.groupName);
+		this.schedule = require('../json/'+this.state.groupName+'.json');
 		this.header = 	<PanelHeaderContent
 							aside={<Icon16Dropdown />}
 							onClick={this.clearGroup} >
 								Нечётная неделя
 						</PanelHeaderContent>;
-		var dayOfWeek = new Date().getDay(); dayOfWeek = dayOfWeek > 5 ? 1 : dayOfWeek;
-		var day = this.getDay(schedule.week1, dayOfWeek);
+		this.updateDay();
+	}
+	
+	updateDay = () => {
+		console.log(this.state.dayNum);
+		var day = this.getDay(this.schedule.week1, this.state.dayNum);
 		var count = 0;
 		day.forEach(item => { if(item.cab) count++ });
-		this.setState({loading: false, groupName: groupName, day: day, count: count});
-		
+		this.setState({loading: false, day: day, count: count, dayNum: this.state.dayNum});
 	}
 	
 	render() {
@@ -132,6 +139,42 @@ class ScheduleScreen extends Component {
 				{this.state.loading ? 	<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
 											<Spinner size="small" style={{ marginTop: 20 }} />
 										</div> : <Footer>{this.getCountPlural(this.state.count)}</Footer> }
+				<FixedLayout vertical="bottom">		
+					<Tabs type="buttons">
+						<HorizontalScroll>
+						<TabsItem
+							onClick={() => {this.state.dayNum = 1; this.updateDay()}}
+							selected={this.state.dayNum === 1}
+						>
+							Понедельник
+						</TabsItem>
+						<TabsItem
+							onClick={() => {this.state.dayNum = 2; this.updateDay()}}
+							selected={this.state.dayNum === 2}
+						>
+							Вторник
+						</TabsItem>
+						<TabsItem
+							onClick={() => {this.state.dayNum = 3; this.updateDay()}}
+							selected={this.state.dayNum === 3}
+						>
+							Среда
+						</TabsItem>
+						<TabsItem
+							onClick={() => {this.state.dayNum = 4; this.updateDay()}}
+							selected={this.state.dayNum === 4}
+						>
+							Четверг
+						</TabsItem>
+						<TabsItem
+							onClick={() => {this.state.dayNum = 5; this.updateDay()}}
+							selected={this.state.dayNum === 5}
+						>
+							Пятница
+						</TabsItem>
+						</HorizontalScroll>
+					</Tabs>
+				</FixedLayout>
 			</Panel>
 		)
 	}

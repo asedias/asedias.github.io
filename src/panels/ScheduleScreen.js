@@ -51,11 +51,22 @@ class ScheduleScreen extends Component {
 	}
 	
 	fetchData = () => {
-		connect.send("VKWebAppCallAPIMethod",  {
+		connect.sendPromise("VKWebAppCallAPIMethod",  {
 				"method": "storage.get", 
 				"params": {"v":"5.103", "access_token": this.access_token, "request_id": "getGroup", "key": "rsu-group", "global": 1}
 			}
-		);
+		)
+		.then(data => {
+			if(data.response.hasOwnProperty("key") {
+				this.updateData(data.response.value);
+			} else {
+				this.updateData(data.response);
+			}
+		})
+		.catch(error => {
+			console.log(error);
+			this.props.go('choose');
+		});
 	}
 	
 	clearGroup = (event) => {

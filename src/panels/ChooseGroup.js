@@ -8,7 +8,6 @@ import './ScheduleScreen.css';
 
 class ChooseGroup extends React.Component {
 	
-	inputRef = React.createRef();
 	access_token = null;
 	constructor(props) {
 		super(props);
@@ -44,8 +43,6 @@ class ChooseGroup extends React.Component {
 			}
 		);
 	}
-	
-	setInputRef = (ref) => this.inputRef = ref;
 	
 	render() {
 		return (

@@ -11,6 +11,7 @@ class ScheduleScreen extends Component {
 	
 	list = [];
 	header = "";
+	access_token = null;
 	
 	constructor(props) {
 		super(props);
@@ -32,13 +33,14 @@ class ScheduleScreen extends Component {
 					document.body.attributes.setNamedItem(schemeAttribute);
 				}
 				if (type === 'VKWebAppAccessTokenReceived') {
-					this.fetchData(data.access_token);
+					this.access_token = data.access_token;
+					this.fetchData();
 				} 
 				if (type === 'VKWebAppAccessTokenFailed' | 'VKWebAppCallAPIMethodFailed') {
 					
 				}
 				if (type === 'VKWebAppCallAPIMethodResult') {
-					if(data.response === '') {
+					if(data.response === '' | data.request_id === "clearGroup") {
 						this.props.go('choose');
 					} else if(data.request_id === "getGroup") {
 						this.updateData(data.response);
@@ -48,10 +50,19 @@ class ScheduleScreen extends Component {
 			connect.send("VKWebAppGetAuthToken", {"app_id": 7241048, "scope": ''});
 	}
 	
-	fetchData = (access_token) => {
+	fetchData = () => {
 		connect.send("VKWebAppCallAPIMethod",  {
-				"method": "execute.getUserGroup", 
-				"params": {"v":"5.103", "access_token": access_token, "request_id": "getGroup"}
+				"method": "storage.get", 
+				"params": {"v":"5.103", "access_token": this.access_token, "request_id": "getGroup", "key": "rsu-group", "global": 1}
+			}
+		);
+	}
+	
+	clearGroup = (event) => {
+		//this.setState({loading: true, groupName: this.state.groupName, day: this.state.day, count: this.state.count});
+		connect.send("VKWebAppCallAPIMethod",  {
+				"method": "storage.set", 
+				"params": {"v":"5.103", "access_token": this.access_token, "request_id": "clearGroup", "value": "", "key": "rsu-group", "global": 1}
 			}
 		);
 	}
@@ -79,7 +90,7 @@ class ScheduleScreen extends Component {
 		var schedule = require('../json/'+groupName+'.json');
 		this.header = 	<PanelHeaderContent
 							aside={<Icon16Dropdown />}
-							onClick={() => {}} >
+							onClick={this.clearGroup} >
 								Нечётная неделя
 						</PanelHeaderContent>;
 		var dayOfWeek = new Date().getDay(); dayOfWeek = dayOfWeek > 5 ? 1 : dayOfWeek;

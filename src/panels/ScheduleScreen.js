@@ -57,8 +57,8 @@ class ScheduleScreen extends Component {
 			}
 		)
 		.then(data => {
-			if(data.response.hasOwnProperty("key")) {
-				this.updateData(data.response.value);
+			if(data.response[0].hasOwnProperty("key")) {
+				this.updateData(data.response[0].value);
 			} else {
 				this.updateData(data.response);
 			}

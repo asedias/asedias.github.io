@@ -13,6 +13,7 @@ class ScheduleScreen extends Component {
 	header = "";
 	access_token = null;
 	schedule = null;
+	groupName = '';
 	
 	constructor(props) {
 		super(props);
@@ -21,8 +22,7 @@ class ScheduleScreen extends Component {
 			loading: true,
 			dayNum: dayOfWeek,
 			day: null,
-			count: 0,
-			groupName: '',
+			count: 0
 		}
 		this.setupConnect();
 	}
@@ -54,10 +54,10 @@ class ScheduleScreen extends Component {
 		)
 		.then(data => {
 			if(data.response[0].hasOwnProperty("key")) {
-				this.setState({groupName: data.response[0].value});
+				this.groupName = data.response[0].value;
 				this.updateData();
 			} else {
-				this.setState({groupName: data.response});
+				this.groupName = data.response;
 				this.updateData();
 			}
 		})
@@ -101,8 +101,8 @@ class ScheduleScreen extends Component {
 	}
 	
 	updateData = () => {
-		console.log(this.state.groupName);
-		this.schedule = require('../json/'+this.state.groupName+'.json');
+		console.log(this.groupName);
+		this.schedule = require('../json/'+this.groupName+'.json');
 		this.header = 	<PanelHeaderContent
 							aside={<Icon16Dropdown />}
 							onClick={this.clearGroup} >

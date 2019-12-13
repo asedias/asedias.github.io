@@ -43,7 +43,7 @@ class ScheduleScreen extends Component {
 					if(data.response === '' | data.request_id === "clearGroup") {
 						this.props.go('choose');
 					} else if(data.request_id === "getGroup") {
-						this.updateData(data.response.value);
+						this.updateData(data.response);
 					}
 				}
 			});

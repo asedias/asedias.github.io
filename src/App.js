@@ -9,7 +9,7 @@ import ChooseGroup from './panels/ChooseGroup';
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('schedule');
-	const [fetchedUser, setUser] = useState(null);
+	//const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
 	useEffect(() => {
@@ -21,9 +21,9 @@ const App = () => {
 			}	
 		});
 		async function fetchData() {
-			const user = await connect.sendPromise('VKWebAppGetUserInfo');
+			//const user = await connect.sendPromise('VKWebAppGetUserInfo');
 			console.log(user);
-			setUser(user);
+			//setUser(user);
 			setPopout(null);
 		}
 		fetchData();
@@ -35,8 +35,8 @@ const App = () => {
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<ChooseGroup fetchedUser={fetchedUser} id='choose' go={go} />
-			<ScheduleScreen fetchedUser={fetchedUser} id='schedule' go={go} />
+			<ChooseGroup /*fetchedUser={fetchedUser}*/ id='choose' go={go} />
+			<ScheduleScreen /*fetchedUser={fetchedUser}*/ id='schedule' go={go} />
 		</View>
 	);
 }

@@ -43,7 +43,7 @@ class ScheduleScreen extends Component {
 					if(data.response === '' | data.request_id === "clearGroup") {
 						this.props.go('choose');
 					} else if(data.request_id === "getGroup") {
-						this.updateData(data.response);
+						this.updateData(data.response.value);
 					}
 				}
 			});
@@ -87,6 +87,7 @@ class ScheduleScreen extends Component {
 	}
 	
 	updateData = (groupName) => {
+		console.log(groupName);
 		var schedule = require('../json/'+groupName+'.json');
 		this.header = 	<PanelHeaderContent
 							aside={<Icon16Dropdown />}
